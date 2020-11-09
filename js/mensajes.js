@@ -4,19 +4,34 @@ mensajes = [{id:'1',tema:'Programacion', mensaje:'Hola mundo', usuario:'admin', 
 msgId = 2;
 idaeliminar = 0;
 idaeditar = 0;
-
-actualizar();
+consulta();
+//actualizar();
 console.log(mensajes);
 
-$("#nombreTema").text('Progra');
+$("#nombreTema").text(sessionStorage.getItem('tema'));
 
 function agregarMensaje(){
+    let id = sessionStorage.getItem("idtema");
     let msg = $("#mensaje").val();
-    msgId ++;
-    nuevoMsg = {id: msgId,tema:'Programacion', mensaje: msg, usuario:'juan', fecha:'2020-09-28'};
-    mensajes.push(nuevoMsg);
-    console.log(mensajes);
-    actualizar();
+    //console.log(id);
+    //console.log(msg);
+    $.getJSON("crud_mensajes.php",{operacion:'C', idtema:id, mensaje:msg}).done(function(datos){
+        //console.log(datos);
+        if(datos.resp == "si"){
+            consulta();
+        }else{
+            $('.toast').toast('show')
+        }
+    }).fail(function(error){
+        //console.log(error);
+    });
+
+    // let msg = $("#mensaje").val();
+    // msgId ++;
+    // nuevoMsg = {id: msgId,tema:'Programacion', mensaje: msg, usuario:'juan', fecha:'2020-09-28'};
+    // mensajes.push(nuevoMsg);
+    // console.log(mensajes);
+    // actualizar();
 }
 
 function actualizar(){
@@ -48,21 +63,55 @@ function eliminarMsg(id){
 }
 
 function confirmaEliminar(){
-    for(let i = 0 ; i < mensajes.length; i++){
-        if(mensajes[i].id==idaeliminar){
-            mensajes.splice(i,1);
-            break;
+    $.getJSON("crud_mensajes.php",{operacion:'D', idmsg: idaeliminar}).done(function(datos){
+        console.log(datos);
+        if(datos.resp == "si"){
+            consulta();
+        }else{
+            $('.toast').toast('show')
         }
-    }
-    actualizar();
+    }).fail(function(error){
+        console.log(error);
+    });
+    // for(let i = 0 ; i < mensajes.length; i++){
+    //     if(mensajes[i].id==idaeliminar){
+    //         mensajes.splice(i,1);
+    //         break;
+    //     }
+    // }
+    // actualizar();
 }
 
 function guardaCambios(){
-    for(let i = 0 ; i < mensajes.length; i++){
-        if(mensajes[i].id==idaeditar){
-            mensajes[i].mensaje = $("#msgEditar").val();
-            break;
+    let msg = $("#msgEditar").val();
+    $.getJSON("crud_mensajes.php",{operacion:'U', idmsg: idaeditar, mensaje: msg}).done(function(datos){
+        console.log(datos);
+        if(datos.resp == "si"){
+            consulta();
+        }else{
+            $('.toast').toast('show')
         }
-    }
-    actualizar();
+    }).fail(function(error){
+        console.log(error);
+    });
+    // for(let i = 0 ; i < mensajes.length; i++){
+    //     if(mensajes[i].id==idaeditar){
+    //         mensajes[i].mensaje = $("#msgEditar").val();
+    //         break;
+    //     }
+    // }
+    // actualizar();
+}
+
+/* Conexion a base de datos */
+/* Consulta*/
+function consulta(){
+    let id = sessionStorage.getItem("idtema");
+    $.getJSON("crud_mensajes.php", {operacion:'R', idtema:id}).done(function(datos){
+        //console.log(datos);
+        mensajes = datos;
+        actualizar();
+    }).fail(function(e){
+        console.log(e);
+    });
 }
