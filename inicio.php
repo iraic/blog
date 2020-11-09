@@ -1,3 +1,6 @@
+<?php
+require_once 'seguridad.php'
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -20,16 +23,16 @@
 
         <div class="collapse navbar-collapse" id="menuPrincipal">
             <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link" href="inicio.html">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link" href="inicio.php">Inicio</a></li>
             </ul>
             <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link" href="mensajes.html">Mensajes</a></li>
+                <li class="nav-item"><a class="nav-link" href="mensajes.php">Mensajes</a></li>
             </ul>
             <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link" href="usuarios.html">Usuarios</a></li>
+                <li class="nav-item"><a class="nav-link" href="usuarios.php">Usuarios</a></li>
             </ul>
             <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link" href="index.html">Salir</a></li>
+                <li class="nav-item"><a class="nav-link" href="index.php">Salir</a></li>
             </ul>
         </div>
     </nav>
@@ -151,6 +154,21 @@
       </div>
     </div>
   </div>
+ <!-- Alertas -->
+ <!-- <div aria-live="polite" aria-atomic="true" style="position: relative; min-height: 200px;"> -->
+  <div id="idtoast" class="toast" style="position: absolute; top: 0; right: 0;">
+    <div class="toast-header">
+    <i class="material-icons align-middle">cancel</i>
+      <strong class="mr-auto">Error</strong>
+      <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="toast-body">
+      No se pudo relizar la operacion
+    </div>
+  </div>
+<!-- </div> -->
 
     <script src="js/jquery-3.3.1.min.js"></script>
     <script src="js/popper.min.js"></script>
